@@ -2,7 +2,7 @@
 package ja.tky.kidsdrawingapp
 
 import android.content.Context
-import android.graphics.* // .* することでgraphicsライブラリ全てがimportされる
+import android.graphics.* // .* することでgraphicsライブラリ全てがimportされる(Paint, Path, Canvas)
 import android.util.AttributeSet
 import android.view.MotionEvent
 import android.view.View
@@ -133,7 +133,7 @@ class DrawingView(context: Context, attrs: AttributeSet) : View(context, attrs) 
     }
 
     // ③
-    // Pathを継承したクラスで動的に変わる色とサイズを持つpathを返す
+    // Pathを継承したクラスで動的に変わる色とサイズを持つPathを返す
     // DrawingView内でのみ使用できるCustomPathクラス
     // graphicsライブラリのPathをimport
     // CustomPathクラスは色と、ブラシの太さを持つ(colorとbrushThickness)
