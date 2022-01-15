@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--ovalで楕円形-->
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+       android:dither="true"
+       android:shape="oval"
+>
+  <size
+  android:height="@dimen/_10dp"
+  android:width="@dimen/_10dp"
+  />
+  <solid android:color="#FF666666" />
+
+</shape>
