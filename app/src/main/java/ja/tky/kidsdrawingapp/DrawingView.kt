@@ -4,6 +4,7 @@ package ja.tky.kidsdrawingapp
 import android.content.Context
 import android.graphics.* // .* することでgraphicsライブラリ全てがimportされる(Paint, Path, Canvas)
 import android.util.AttributeSet
+import android.util.TypedValue
 import android.view.MotionEvent
 import android.view.View
 
@@ -40,7 +41,7 @@ class DrawingView(context: Context, attrs: AttributeSet) : View(context, attrs) 
         mDrawPaint!!.strokeJoin = Paint.Join.ROUND
         mDrawPaint!!.strokeCap = Paint.Cap.ROUND
         mCanvasPaint = Paint(Paint.DITHER_FLAG)
-        mBrushSize = 20.toFloat()
+        //mBrushSize = 20.toFloat()
     }
 
     // ⑤　https://developer.android.com/reference/android/view/View#size,-padding-and-margins
@@ -130,6 +131,16 @@ class DrawingView(context: Context, attrs: AttributeSet) : View(context, attrs) 
 
         // trueを返すことで何回も処理を繰り返すことができる
         return true
+    }
+
+    // ブラシのサイズを設定する関数を作成
+    fun setSizeForBrush(newSize: Float) {
+        println("newSize $newSize")
+        // TypedValue.applyDimensionで端末の画面サイズに合ったサイズに変換する
+        mBrushSize = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, newSize, resources.displayMetrics)
+        println("mBrushSize $mBrushSize")
+
+        mDrawPaint!!.strokeWidth = mBrushSize
     }
 
     // ③
