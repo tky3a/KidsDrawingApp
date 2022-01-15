@@ -21,6 +21,7 @@ class DrawingView(context: Context, attrs: AttributeSet) : View(context, attrs) 
     private var mBrushSize: Float = 0.toFloat() // ブラシのサイズ
     private var color = Color.BLACK // カラー
     private var canvas: Canvas? = null //　キャンバス
+    private val mPaths = ArrayList<CustomPath>() // 複数のpathを格納する変数
 
     // ④
     // 最初に呼び出したい処理
@@ -60,6 +61,17 @@ class DrawingView(context: Context, attrs: AttributeSet) : View(context, attrs) 
         super.onDraw(canvas)
         // drawBitmapを使って描画する
         canvas.drawBitmap(mCanvasBitmap!!, 0f, 0f, mCanvasPaint)
+
+        // いままで描いたPathを描画する
+        // mPathsをループしてcanvasで描画することで画面に描いたpathが残る
+        for (path in mPaths) {
+            // いままで描いた各pathのサイズを取得
+            mDrawPaint!!.strokeWidth = path.brushThickness
+            // いままで描いた各pathの色を取得
+            mDrawPaint!!.color = path.color
+            // 画面に描画
+            canvas.drawPath(path, mDrawPaint!!)
+        }
 
         // mDrawPathが存在しない場合
         if (!mDrawPath!!.isEmpty) {
@@ -102,7 +114,10 @@ class DrawingView(context: Context, attrs: AttributeSet) : View(context, attrs) 
 
             // タッチ状態から手を離した時
             MotionEvent.ACTION_UP -> {
-                // パスを上書き（現状では描いたパスが消えてしまう）
+                println("dd $mDrawPath ${mDrawPath?.brushThickness}")
+                // 描いたパスを配列に保存
+                mPaths.add(mDrawPath!!)
+                // パスを初期化
                 mDrawPath = CustomPath(color, mBrushSize)
             }
 
@@ -118,6 +133,7 @@ class DrawingView(context: Context, attrs: AttributeSet) : View(context, attrs) 
     }
 
     // ③
+    // Pathを継承したクラスで動的に変わる色とサイズを持つpathを返す
     // DrawingView内でのみ使用できるCustomPathクラス
     // graphicsライブラリのPathをimport
     // CustomPathクラスは色と、ブラシの太さを持つ(colorとbrushThickness)
