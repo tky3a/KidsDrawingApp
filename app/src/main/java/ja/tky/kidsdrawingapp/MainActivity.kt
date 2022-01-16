@@ -3,13 +3,19 @@ package ja.tky.kidsdrawingapp
 import android.app.Dialog
 import android.os.Bundle
 import android.widget.ImageButton
+import android.widget.LinearLayout
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
+import androidx.core.view.get // これをimportすることによってリニアレイアウトから要素を取得することが可能
 
 class MainActivity : AppCompatActivity() {
 
     // ⑧
     // DrawingViewの変数を定義
     private var drawingView: DrawingView? = null
+
+    // 現在カラー
+    private var mImageButtonCurrentPaint: ImageButton? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -20,6 +26,15 @@ class MainActivity : AppCompatActivity() {
         // 大元のViewがktファイルで作成しているため、関数などのアクセスが可能になる
         drawingView = findViewById(R.id.drawing_view)
         drawingView?.setSizeForBrush(20.toFloat())
+
+        // リニアレイアウトを取得
+        var linearLayoutPaintColors = findViewById<LinearLayout>(R.id.ll_paint_colors)
+        // リニアレイアウトの中から2番目の要素をデフォルト値として設定
+        mImageButtonCurrentPaint = linearLayoutPaintColors[1] as ImageButton
+        // 選択中のカラーをセットする
+        mImageButtonCurrentPaint!!.setImageDrawable(
+            ContextCompat.getDrawable(this, R.drawable.pallet_pressed)
+        )
 
         // ブラシボタン
         val ibBrash: ImageButton = findViewById(R.id.ibBrush)
